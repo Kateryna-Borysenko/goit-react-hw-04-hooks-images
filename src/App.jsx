@@ -29,17 +29,9 @@ const App = () => {
     // console.log(api);
   };
 
-  //запрос
   useEffect(() => {
-    // если прошлый запрос не равен текущему, то отправляем запрос
-    // componentDidUpdate(prevProps, prevState) {
-    //   if (prevState.searchQuery !== this.state.searchQuery) {
-    //     this.fetchImages();
-    //     // console.log('prevProps', prevState.searchQuery);
-    //     // console.log('prevState', this.state.searchQuery);
-    //   }
-    // }
-    //!проверка - не нравится как работает отрисовывает чистую страницу
+    //если ничего не ввели в инпут, то запрос не выполнится
+    //searchQuery === null
     if (!searchQuery) {
       return;
     }
