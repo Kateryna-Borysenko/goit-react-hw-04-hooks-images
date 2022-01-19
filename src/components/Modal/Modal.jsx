@@ -1,40 +1,44 @@
-import React, { Component } from 'react';
+import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import s from './Modal.module.css';
 
-//Видео Таня объеснение
-//создать дополнительный div в html с id #modal-root
 const modalRoot = document.querySelector('#modal-root');
 
-class Modal extends Component {
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown);
-  }
+const Modal = ({ children, onClose }) => {
+  useEffect(() => {
+    //включила в зависимость
+    const handleKeyDown = e => {
+      if (e.code === 'Escape') {
+        onClose();
+      }
+    };
 
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown);
-  }
+    //выполнить один раз при componentDidMount() при создании
+    // console.log('useEffect при маунте');
+    window.addEventListener('keydown', handleKeyDown);
 
-  handleKeyDown = event => {
-    if (event.code === 'Escape') {
-      this.props.onClose();
-    }
-  };
+    //ф-ция очистки
+    return () => {
+      // вызов как componentDidMount() перед удалением
+      window.removeEventListener('keydown', handleKeyDown);
+      // console.log('useEffect при анмаунте');
+    };
 
-  onBackdropClick = event => {
+    //и 1 раз при анмаунте компонента
+  }, [onClose]);
+
+  const onBackdropClick = event => {
     if (event.currentTarget === event.target) {
-      this.props.onClose();
+      onClose();
     }
   };
 
-  render() {
-    return createPortal(
-      <div className={s.overlay} onClick={this.onBackdropClick}>
-        <div className={s.modal}>{this.props.children}</div>
-      </div>,
-      modalRoot,
-    );
-  }
-}
+  return createPortal(
+    <div className={s.overlay} onClick={onBackdropClick}>
+      <div className={s.modal}>{children}</div>
+    </div>,
+    modalRoot,
+  );
+};
 
 export default Modal;
