@@ -1,10 +1,14 @@
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import s from './Modal.module.css';
+import { useLockBodyScroll } from 'react-use';
 
 const modalRoot = document.querySelector('#modal-root');
 
 const Modal = ({ children, onClose }) => {
+  useLockBodyScroll(true); //готовый hook с библиотеки 'react-use' убирающий скрол страницы
+  //! СКРОЛ НЕ УБИРАЕТСЯ
+
   useEffect(() => {
     //включила в зависимость
     const handleKeyDown = e => {

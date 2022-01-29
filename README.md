@@ -1,91 +1,118 @@
-# Getting Started with Create React App
+### An image sercher on React
 
-This project was bootstrapped with
-[Create React App](https://github.com/facebook/create-react-app).
+[Live Demo](https://kateryna-borysenko.github.io/goit-react-hw-04-hooks-images/)
 
-## Available Scripts
+ <img src="./src/images/screenshot.png" width="900">
 
-In the project directory, you can run:
+# Поиск изображений
 
-### `yarn start`
+Напиши приложение поиска изображений по ключевому слову. Превью рабочего
+приложения
+[смотри по ссылке](https://drive.google.com/file/d/1oXCGyiq4uKwW0zzraZLKk4lh3voBlBzZ/view?usp=sharing).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Создай компоненты `<Searchbar>`, `<ImageGallery>`, `<ImageGalleryItem>`,
+`<Loader>`, `<Button>` и `<Modal>`. Готовые стили компонентов можно взять в
+файле [styles.css](./styles.css) и подправить под себя, если необходимо.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+![preview](./mockup/preview.jpg)
 
-### `yarn test`
+## Инструкция Pixabay API
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests)
-for more information.
+Для HTTP-запросов используй публичный сервис поиска изображений
+[Pixabay](https://pixabay.com/api/docs/). Зарегистрируйся и получи приватный
+ключ доступа.
 
-### `yarn build`
+URL-строка HTTP-запроса.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best
-performance.
+```bash
+https://pixabay.com/api/?q=cat&page=1&key=your_key&image_type=photo&orientation=horizontal&per_page=12
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Pixabay API поддерживает пагинацию, по умолчанию параметр `page` равен `1`.
+Пусть в ответе приходит по 12 объектов, установлено в параметре `per_page`. Не
+забудь что при поиске по новому ключевому слову, необходимо сбрасывать значение
+`page` в `1`.
 
-See the section about
-[deployment](https://facebook.github.io/create-react-app/docs/deployment) for
-more information.
+В ответе от апи приходит массив объектов, в которых тебе интересны только
+следущие свойства.
 
-### `yarn eject`
+- `id` - уникальный идентификатор
+- `webformatURL` - ссылка на маленькое изображение для списка карточек
+- `largeImageURL` - ссылка на большое изображение для модального окна
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Описание компонента `<Searchbar>`
 
-If you aren’t satisfied with the build tool and configuration choices, you can
-`eject` at any time. This command will remove the single build dependency from
-your project.
+Компонент принимает один проп `onSubmit` - функцию для передачи значения инпута
+при сабмите формы. Создает DOM-элемент следующей структуры.
 
-Instead, it will copy all the configuration files and the transitive
-dependencies (webpack, Babel, ESLint, etc) right into your project so you have
-full control over them. All of the commands except `eject` will still work, but
-they will point to the copied scripts so you can tweak them. At this point
-you’re on your own.
+```html
+<header class="searchbar">
+  <form class="form">
+    <button type="submit" class="button">
+      <span class="button-label">Search</span>
+    </button>
 
-You don’t have to ever use `eject`. The curated feature set is suitable for
-small and middle deployments, and you shouldn’t feel obligated to use this
-feature. However we understand that this tool wouldn’t be useful if you couldn’t
-customize it when you are ready for it.
+    <input
+      class="input"
+      type="text"
+      autocomplete="off"
+      autofocus
+      placeholder="Search images and photos"
+    />
+  </form>
+</header>
+```
 
-## Learn More
+## Описание компонента `<ImageGallery>`
 
-You can learn more in the
-[Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Список карточек изображений. Создает DOM-элемент следующей структуры.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```html
+<ul class="gallery">
+  <!-- Набор <li> с изображениями -->
+</ul>
+```
 
-### Code Splitting
+## Описание компонента `<ImageGalleryItem>`
 
-This section has moved here:
-[https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Компонент элемента списка с изображением. Создает DOM-элемент следующей
+структуры.
 
-### Analyzing the Bundle Size
+```html
+<li class="gallery-item">
+  <img src="" alt="" />
+</li>
+```
 
-This section has moved here:
-[https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Описание компонента `<Button>`
 
-### Making a Progressive Web App
+При нажатии на кнопку `Load more` должна догружаться следующая порция
+изображений и рендериться вместе с предыдущими. Кнопка должна рендерится только
+тогда, когда есть какие-то загруженные изобаржения. Если массив изображений
+пуст, кнопка не рендерится.
 
-This section has moved here:
-[https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Описание компонента `<Loader>`
 
-### Advanced Configuration
+Компонент спинера, отображется пока идет загрузка изобаржений. Используй любой
+готовый компонент, например
+[react-loader-spinner](https://github.com/mhnpd/react-loader-spinner) или любой
+другой.
 
-This section has moved here:
-[https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Описание компонента `<Modal>`
 
-### Deployment
+При клике по элементу галереи должно открываться модальное окно с темным
+оверлеем и отображаться большая версия изображения. Модальное окно должно
+закрываться по нажатию клавиши `ESC` или по клику на оверлее.
 
-This section has moved here:
-[https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Внешний вид похож на функционал этого
+[VanillaJS-плагина](https://basiclightbox.electerious.com/), только вместо
+белого модального окна рендерится изображение (в примере нажми `Run`). Анимацию
+делать не нужно!
 
-### `yarn build` fails to minify
-
-This section has moved here:
-[https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```html
+<div class="overlay">
+  <div class="modal">
+    <img src="" alt="" />
+  </div>
+</div>
+```
