@@ -2,7 +2,7 @@
   "name": "react-hw-03-image-finder",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://github.com/Kateryna-Borysenko/image-searcher",
+  "homepage": "https://kateryna-borysenko.github.io/react-hw-04-hooks-image-finder/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
