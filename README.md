@@ -1,4 +1,4 @@
-### An image sercher on React
+# `An image sercher on React`
 
  <img src="./src/images/screenshot.png" width="900">
 
