@@ -1,7 +1,5 @@
 ### An image sercher on React
 
-[Live Demo](https://kateryna-borysenko.github.io/goit-react-hw-04-hooks-images/)
-
  <img src="./src/images/screenshot.png" width="900">
 
 # Поиск изображений
